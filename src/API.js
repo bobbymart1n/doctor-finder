@@ -6,8 +6,17 @@ class API {
     this.searchResults;
     this.location = "45.5231,-122.6765,10";
   }
+  spaceSearch(url) {
+    url = this.url.split('');
+    url.map((letter) => {
+      letter.replace(/\s/, "%20");
+    });
+    let urlJoin = url.join('');
+    this.url = urlJoin;
+  }
   conditionSearch() {
     this.url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${this.symptom}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+    this.spaceSearch();
   }
   nameSearch() {
     this.url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
