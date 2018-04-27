@@ -28,10 +28,16 @@ $(function() {
         $("h3.result-heading").show();
         api.searchResults.data.map((doctor) => {
           let newPatients;
+          let website;
           if(doctor.practices[0].accepts_new_patients) {
             newPatients = `<p class="mb-0">Accepting new patients: Yes</p>`
           } else {
             newPatients = `<p class="mb-0">Accepting new patients: No</p>`
+          }
+          if(doctor.practices[0].website) {
+            website = `<a href="${doctor.practices[0].website}" class="mb-0">${doctor.practices[0].website}</a>`
+          } else {
+            website = `<p class="mb-0">No website available</p>`
           }
           $("#results").append(`
             <div class="doctor-item mt-3 mb-3 row">
@@ -43,6 +49,7 @@ $(function() {
                 <p class="mb-0">Phone: <a href="tel:${doctor.practices[0].phones[0].number}">${doctor.practices[0].phones[0].number}</a></p>
                 <p class="mb-0">${doctor.practices[0].visit_address.street}</p>
                 <p class="mb-0">${doctor.practices[0].visit_address.city} ${doctor.practices[0].visit_address.state}. ${doctor.practices[0].visit_address.zip}</p>
+                ${website}
                 ${newPatients}
               </div>
             </div>
