@@ -7,27 +7,34 @@ import './styles.css';
 $(function() {
   $("#form").submit(function(event) {
     event.preventDefault();
-    // const symptom = $("#symptom").val();
+    const symptom = $("#symptom").val().toLowerCase();
     const drFirstName = $("#docFirstName").val().toLowerCase();
     let api = new API();
     api.doctorName = drFirstName;
+    api.symptom = symptom;
     api.makeCall();
     $(this).hide();
     $("#results").show();
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
-      api.searchResults.data.map((doctor) => {
+      if(api.searchResults) {
+        api.searchResults.data.map((doctor) => {
+          $("#results").prepend(`
+            <div class="doctor-item">
+              <img src=${doctor.profile.image_url} alt='A photo of Dr. ${doctor.profile.last_name}'>
+              <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
+              <p class="mb-0">Phone: <a href="tel:${doctor.practices[0].phones[0].number}">${doctor.practices[0].phones[0].number}</a></p>
+              <p class="mb-0">${doctor.practices[0].visit_address.street}</p>
+              <p>${doctor.practices[0].visit_address.city} ${doctor.practices[0].visit_address.state}. ${doctor.practices[0].visit_address.zip}</p>
+            </div>
+          `);
+        });
+      } else {
         $("#results").prepend(`
-          <div class="doctor-item">
-            <img src=${doctor.profile.image_url} alt='A photo of Dr. ${doctor.profile.last_name}'>
-            <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
-            <p class="mb-0">Phone: <a href="tel:${doctor.practices[0].phones[0].number}">${doctor.practices[0].phones[0].number}</a></p>
-            <p class="mb-0">${doctor.practices[0].visit_address.street}</p>
-            <p>${doctor.practices[0].visit_address.city} ${doctor.practices[0].visit_address.state}. ${doctor.practices[0].visit_address.zip}</p>
-          </div>
+          <h3>Uh oh! We can't find any doctors for you! If this is a medical emergency, call 911 immediately.</h3>
         `);
-      });
+      }
     }, 3000);
   });
 });
