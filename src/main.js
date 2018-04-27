@@ -5,6 +5,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
 
 $(function() {
-  let api = new API();
-  console.log(api.makeCall());
+  $("#form").submit(function(event) {
+    event.preventDefault();
+    const searchType = "conditions";
+    const symptom = $("#symptom").val();
+    let api = new API(searchType, symptom);
+    api.makeCall();
+  });
 });
