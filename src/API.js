@@ -6,7 +6,7 @@ class API {
   makeCall() {
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
-      let url = `https://api.betterdoctor.com/2016-03-01/doctors?location=${this.location}&limit=10&user_key=${process.env.API_KEY}`;
+      let url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorName}&location=${this.location}&limit=10&user_key=${process.env.API_KEY}`;
       request.onload = function() {
         if(this.status === 200) {
           resolve(request.response);
