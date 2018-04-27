@@ -23,7 +23,7 @@ class API {
     this.spaceSearch();
   }
   nameSearch() {
-    if(this.doctorFirstName) {
+    if(this.doctorFirstName && this.doctorLastName) {
       this.url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorFirstName}&last_name=${this.doctorLastName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
     } else if (this.doctorLastName) {
       this.url = `https://api.betterdoctor.com/2016-03-01/doctors?last_name=${this.doctorLastName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
@@ -34,7 +34,7 @@ class API {
   makeCall() {
     if (this.symptom) {
       this.conditionSearch();
-    } else if(this.docFirstName || this.doctorLastName) {
+    } else if(this.doctorFirstName || this.doctorLastName) {
       this.nameSearch();
     } else {
       this.locationSearch();
