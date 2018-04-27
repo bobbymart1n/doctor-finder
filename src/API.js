@@ -1,7 +1,8 @@
 class API {
   constructor() {
     this.url;
-    this.doctorName;
+    this.doctorFirstName;
+    this.doctorLastName;
     this.symptom;
     this.searchResults;
     this.location = "45.5231,-122.6765,10";
@@ -14,20 +15,29 @@ class API {
     let urlJoin = url.join('');
     this.url = urlJoin;
   }
+  locationSearch() {
+    this.url = `https://api.betterdoctor.com/2016-03-01/doctors?location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+  }
   conditionSearch() {
     this.url = `https://api.betterdoctor.com/2016-03-01/doctors?query=${this.symptom}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
     this.spaceSearch();
   }
   nameSearch() {
-    this.url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+    if(this.doctorFirstName) {
+      this.url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorFirstName}&last_name=${this.doctorLastName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+    } else if (this.doctorLastName) {
+      this.url = `https://api.betterdoctor.com/2016-03-01/doctors?last_name=${this.doctorLastName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+    } else {
+      this.url = `https://api.betterdoctor.com/2016-03-01/doctors?first_name=${this.doctorFirstName}&location=${this.location}&limit=10&user_key=${process.env.exports.apiKey}`;
+    }
   }
   makeCall() {
     if (this.symptom) {
       this.conditionSearch();
-      console.log(this.url);
-    } else {
+    } else if(this.docFirstName || this.doctorLastName) {
       this.nameSearch();
-      console.log(this.url);
+    } else {
+      this.locationSearch();
     }
     return new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
