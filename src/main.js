@@ -17,11 +17,13 @@ $(function() {
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
-      $("#results").prepend(`
-        <div class="doctor-item">
-        <h3>${api.searchResults.data[0].profile.first_name}</h3>
-        </div>
+      api.searchResults.data.map((doctor) => {
+        $("#results").prepend(`
+          <div class="doctor-item">
+            <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
+          </div>
         `);
+      });
     }, 1500);
   });
 });
