@@ -18,7 +18,7 @@ $(function() {
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
-      if(api.searchResults) {
+      if(api.searchResults.data.length >= 1) {
         api.searchResults.data.map((doctor) => {
           $("#results").prepend(`
             <div class="doctor-item">
