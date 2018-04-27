@@ -20,7 +20,9 @@ $(function() {
       api.searchResults.data.map((doctor) => {
         $("#results").prepend(`
           <div class="doctor-item">
+            <img src=${doctor.profile.image_url} alt='A photo of Dr. ${doctor.profile.last_name}'>
             <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
+            <p>${doctor.practices[0].visit_address.street}</p>
           </div>
         `);
       });
