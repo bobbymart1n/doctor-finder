@@ -7,9 +7,8 @@ import './styles.css';
 $(function() {
   $("#form").submit(function(event) {
     event.preventDefault();
-    const searchType = "conditions";
     const symptom = $("#symptom").val();
-    let api = new API(searchType, symptom);
+    let api = new API(symptom);
     api.makeCall();
   });
 });
