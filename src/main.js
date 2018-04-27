@@ -7,10 +7,10 @@ import './styles.css';
 $(function() {
   $("#form").submit(function(event) {
     event.preventDefault();
+    let api = new API();
     const symptom = $("#symptom").val().toLowerCase();
     const drFirstName = $("#docFirstName").val().toLowerCase();
     const drLastName = $("#docLastName").val().toLowerCase();
-    let api = new API();
     api.doctorFirstName = drFirstName;
     api.doctorLastName = drLastName;
     api.symptom = symptom;
@@ -20,7 +20,11 @@ $(function() {
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
-      if(api.searchResults.data.length >= 1) {
+      if(api.searchResults === undefined) {
+        $("#results").prepend(`
+          <h3 class="text-danger">Uh oh! Theres been in error processing your request.</h3>
+        `);
+      } else if(api.searchResults.data.length >= 1) {
         api.searchResults.data.map((doctor) => {
           let newPatients;
           if(doctor.practices[0].accepts_new_patients) {
