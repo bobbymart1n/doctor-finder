@@ -20,12 +20,12 @@ $(function() {
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
-      $("h3.result-heading").show();
       if(api.searchResults === undefined) {
         $("#results").prepend(`
-          <h3 class="text-danger">Uh oh! Theres been in error processing your request.</h3>
+          <h3 class="text-danger server-error mt-5">Uh oh! Theres been in error processing your request.</h3>
         `);
       } else if(api.searchResults.data.length >= 1) {
+        $("h3.result-heading").show();
         api.searchResults.data.map((doctor) => {
           let newPatients;
           if(doctor.practices[0].accepts_new_patients) {

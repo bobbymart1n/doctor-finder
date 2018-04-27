@@ -9,7 +9,7 @@ form {
   margin: auto;
   max-width: 500px;
 }
-.result-heading {
+.result-heading, .loader, .server-error {
   max-width: 500px;
   margin: auto;
 }
