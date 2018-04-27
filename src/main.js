@@ -20,6 +20,7 @@ $(function() {
     $("#loading").show();
     setTimeout(() => {
       $("#loading").hide();
+      $("h3.result-heading").show();
       if(api.searchResults === undefined) {
         $("#results").prepend(`
           <h3 class="text-danger">Uh oh! Theres been in error processing your request.</h3>
@@ -28,18 +29,22 @@ $(function() {
         api.searchResults.data.map((doctor) => {
           let newPatients;
           if(doctor.practices[0].accepts_new_patients) {
-            newPatients = `<p>Accepting new patients: Yes</p>`
+            newPatients = `<p class="mb-0">Accepting new patients: Yes</p>`
           } else {
-            newPatients = `<p>Accepting new patients: No</p>`
+            newPatients = `<p class="mb-0">Accepting new patients: No</p>`
           }
-          $("#results").prepend(`
-            <div class="doctor-item">
-              <img src=${doctor.profile.image_url} alt='A photo of Dr. ${doctor.profile.last_name}'>
-              <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
-              <p class="mb-0">Phone: <a href="tel:${doctor.practices[0].phones[0].number}">${doctor.practices[0].phones[0].number}</a></p>
-              <p class="mb-0">${doctor.practices[0].visit_address.street}</p>
-              <p class="mb-0">${doctor.practices[0].visit_address.city} ${doctor.practices[0].visit_address.state}. ${doctor.practices[0].visit_address.zip}</p>
-              ${newPatients}
+          $("#results").append(`
+            <div class="doctor-item mt-3 mb-3 row">
+              <div class="col-md-2 doctor-image">
+                <img src=${doctor.profile.image_url} alt='A photo of Dr. ${doctor.profile.last_name}'>
+              </div>
+              <div class="doctor-info col-md-6">
+                <h4>${doctor.profile.first_name} ${doctor.profile.last_name}</h4>
+                <p class="mb-0">Phone: <a href="tel:${doctor.practices[0].phones[0].number}">${doctor.practices[0].phones[0].number}</a></p>
+                <p class="mb-0">${doctor.practices[0].visit_address.street}</p>
+                <p class="mb-0">${doctor.practices[0].visit_address.city} ${doctor.practices[0].visit_address.state}. ${doctor.practices[0].visit_address.zip}</p>
+                ${newPatients}
+              </div>
             </div>
           `);
         });
