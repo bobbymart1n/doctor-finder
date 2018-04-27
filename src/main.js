@@ -7,8 +7,10 @@ import './styles.css';
 $(function() {
   $("#form").submit(function(event) {
     event.preventDefault();
-    const symptom = $("#symptom").val();
-    let api = new API(symptom);
+    // const symptom = $("#symptom").val();
+    const drFirstName = $("#docFirstName").val().toLowerCase();
+    let api = new API();
+    api.doctorName = drFirstName;
     api.makeCall();
   });
 });
