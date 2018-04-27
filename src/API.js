@@ -1,6 +1,7 @@
 class API {
   constructor() {
     this.doctorName;
+    this.searchResults;
     this.location = "45.5231,-122.6765,10";
   }
   makeCall() {
@@ -19,6 +20,7 @@ class API {
     }).then((response) => {
       let body = JSON.parse(response);
       console.log(body);
+      this.searchResults = body;
     });
   }
 }
